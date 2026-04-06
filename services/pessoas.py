@@ -45,22 +45,33 @@ def listar_pessoas():
     try:
         conn = connect.conectar()
         cursor = conn.cursor()
-        cmd = """
-        SELECT nome, id 
-        FROM pessoa;
-        """
-        cursor.execute(cmd)
-        retorno = cursor.fetchall()
-        for nome, id in retorno:
-            print(f"id: {id} nome: {nome}")
+
+        cursor.execute("""
+            SELECT id, nome, idade, endereco, territorio
+            FROM pessoa
+        """)
+
+        usuarios = cursor.fetchall()
+
+        if not usuarios:
+            print("Nenhum usuário cadastrado.")
+            return
+
+        for u in usuarios:
+            print(f"ID: {u[0]}")
+            print(f"Nome: {u[1]}")
+            print(f"Idade: {u[2]}")
+            print(f"Endereço: {u[3]}")
+            print(f"Território: {u[4]}")
+            print("-" * 30)
 
     except Exception as e:
-        print("Erro ao acessar o banco")
-        print(e)
+        print("Erro:", e)
 
     finally:
         cursor.close()
         conn.close()
+
 
 def buscar_pessoa_por_id(pessoa_id):
     try:
