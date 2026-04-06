@@ -1,4 +1,7 @@
 from db import connect
+
+#olhar nova versao cadastra pessoas
+'''
 def cadastrar_pessoa(nome, idade, endereco, territorio):
     try:
         conn = connect.conectar()
@@ -13,6 +16,27 @@ def cadastrar_pessoa(nome, idade, endereco, territorio):
         print("Erro ao acessar o banco")
         print(e)
 
+    finally:
+        cursor.close()
+        conn.close()
+'''
+def cadastrar_pessoa(nome, idade, endereco, territorio):
+    try:
+        conn = connect.conectar()
+        cursor = conn.cursor()
+        cmd = """INSERT INTO pessoa(nome, idade, endereco, territorio)
+        VALUES (%s,%s,%s,%s);
+        """
+        cursor.execute(cmd, (nome, idade, endereco, territorio))
+        conn.commit()
+        
+        
+        return cursor.lastrowid 
+
+    except Exception as e:
+        print("Erro ao acessar o banco")
+        print(e)
+        return None # Caso dê erro
     finally:
         cursor.close()
         conn.close()
@@ -80,6 +104,11 @@ def editar_cadastro(id, nome, idade, endereco, territorio): #Devem ser passados 
     finally:
         cursor.close()
         conn.close()
+        
+
+        
+
+        
 
 
 
