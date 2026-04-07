@@ -1,0 +1,57 @@
+--Sistema de Atendimento do CREAS (Centro de Referência Especializado de Assistência Social)
+Proposta
+
+Este trabalho propõe o desenvolvimento de um sistema para o CREAS (Centro de Referência Especializado de Assistência Social), com o objetivo de gerenciar atendimentos e cadastros de usuários. O sistema permitirá que múltiplos funcionários acessem e atualizem informações simultaneamente.
+Devido ao acesso concorrente, é necessário garantir a integridade dos dados, evitando problemas como perda de informações, duplicidade de registros ou inconsistências no sistema.
+
+--Problema
+
+Um problema de concorrência pode ocorrer quando uma mesma pessoa já possui cadastro no sistema e retorna ao CREAS por um novo motivo de atendimento, como um tipo diferente de violência.
+
+Além disso, o CREAS não recebe denúncias diretamente, mas sim ofícios enviados por outros órgãos responsáveis, contendo informações sobre a situação da pessoa a ser acompanhada.
+
+Nesse contexto, dois técnicos podem acessar o sistema simultaneamente: enquanto um registra um novo atendimento com base em um ofício recém-recebido, outro pode estar atualizando dados anteriores do mesmo usuário.
+
+Sem um controle adequado de concorrência, podem ocorrer problemas como mistura de informações entre atendimentos distintos, sobrescrita de dados importantes e até perda de registros de ofícios, comprometendo o acompanhamento correto do caso.
+
+Modelagem do Banco de Dados
+
+O sistema foi modelado utilizando um banco de dados relacional, com tabelas para armazenar informações das pessoas atendidas, atendimentos realizados e ofícios recebidos.
+
+--Uso de Transações
+
+Para garantir a integridade dos dados, o sistema utilizará transações durante o processo de registro de um novo atendimento.
+
+Ao cadastrar um atendimento, o sistema também deverá registrar o ofício correspondente enviado por outro órgão. Essas duas operações devem ocorrer de forma conjunta.
+
+O processo seguirá os seguintes passos:
+
+Iniciar a transação
+Registrar o novo atendimento da pessoa
+Registrar o ofício recebido
+Finalizar a transação (commit)
+
+Caso ocorra algum erro durante o processo, como falha no registro do atendimento ou do ofício, a transação será cancelada (rollback), garantindo que nenhuma informação incompleta seja salva no banco de dados.
+
+Controle de Concorrência
+
+Para evitar problemas causados por acessos simultâneos, o sistema utilizará controle de concorrência durante as operações no banco de dados.
+
+Quando um técnico iniciar o registro de um atendimento, o sistema bloqueará temporariamente os dados relacionados àquela pessoa, impedindo que outro técnico altere as mesmas informações ao mesmo tempo.
+
+Esse bloqueio garante que apenas uma operação seja realizada por vez sobre os mesmos dados, evitando conflitos como sobrescrita de informações, duplicidade de registros ou perda de dados.
+
+Além disso, o uso de transações com níveis adequados de isolamento garante que operações concorrentes não interfiram entre si, mantendo a consistência do banco de dados.
+
+--Exemplo de Uso
+
+Considere a seguinte situação:
+
+Uma pessoa já cadastrada no sistema retorna ao CREAS com um novo caso de violência. Dois funcionários acessam o sistema ao mesmo tempo:
+
+O técnico A inicia o registro de um novo atendimento com base em um ofício recém-recebido.
+O técnico B acessa o cadastro da mesma pessoa para atualizar informações anteriores.
+
+Sem controle de concorrência, essas operações poderiam causar inconsistências, como mistura de dados entre atendimentos ou perda de informações importantes.
+
+Com o uso de transações e bloqueios, o sistema garante que apenas uma operação ocorra por vez, evitando conflitos e mantendo os dados organizados e corretos.
