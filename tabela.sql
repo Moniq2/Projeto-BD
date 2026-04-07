@@ -1,5 +1,5 @@
 CREATE DATABASE sistema;
-use sistema;
+USE sistema;
 CREATE TABLE pessoa (
     id INTEGER AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100),
