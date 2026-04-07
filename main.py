@@ -1,4 +1,4 @@
-from services.pessoas import cadastrar_pessoa, editar_cadastro, buscar_pessoa_por_id, listar_pessoas
+from services.pessoas import (cadastrar_pessoa,editar_cadastro,buscar_pessoa_por_id,listar_pessoas,exibir_detalhes_pessoa)
 from services import atendimento
 
 def exibir_menu():
@@ -10,6 +10,7 @@ def exibir_menu():
     print("3. Atualizar Dados de um Usuário")
     print("4. Listar Todos os Usuários")
     print("5. Listar atendimentos e oficios de um usuário")
+    print("6. Consultar dados de um cadastro específico")
     print("0. Sair do Sistema")
     print("="*60)
     return input("Escolha uma opção: ")
@@ -92,6 +93,10 @@ if __name__ == "__main__":
                 id = input("Digite o ID do usuário: ")
                 print("\n--- DADOS DE ATENDIMENTOS DO USUÁRIO ---")
                 atendimento.listar_atendimentos(id)
+
+            case"6":
+                id_busca = input("Digite o ID para consulta detalhada: ")
+                exibir_detalhes_pessoa(id_busca)
 
             case "0":
                 print("\nEncerrando o sistema CREAS. Até logo!")

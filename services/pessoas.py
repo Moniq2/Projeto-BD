@@ -116,8 +116,26 @@ def editar_cadastro(id, nome, idade, endereco, territorio): #Devem ser passados 
         cursor.close()
         conn.close()
         
-
+def exibir_detalhes_pessoa(pessoa_id):
+    try:
+        # Reutilizamos a função de busca que já tem
+        pessoa = buscar_pessoa_por_id(pessoa_id)
         
+        if pessoa:
+            print("\n" + "="*40)
+            print(f"       DADOS DETALHADOS")
+            print("="*40)
+            print(f"ID:         {pessoa[0]}")
+            print(f"Nome:       {pessoa[1]}")
+            print(f"Idade:      {pessoa[2]}")
+            print(f"Endereço:   {pessoa[3]}")
+            print(f"Território: {pessoa[4]}")
+            print("="*40)
+        else:
+            print(f"\n[AVISO] Nenhum registro encontrado com o ID: {pessoa_id}")
+            
+    except Exception as e:
+        print("Erro ao exibir detalhes:", e)
 
         
 
